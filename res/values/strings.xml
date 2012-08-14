@@ -7,4 +7,10 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">D3 DPS Calculator</string>
 
+     <string-array name="inputvars_array">
+        <item>Main Attrib.</item>
+        <item>I.A.S</item>
+        <item>Crit.Chance</item>
+        <item>Crit.Dam</item>
+    </string-array>
 </resources>
