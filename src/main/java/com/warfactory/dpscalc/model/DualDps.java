@@ -6,9 +6,8 @@ package com.warfactory.dpscalc.model;
 public class DualDps extends Dps {
 
 	/**
-	 * DPS of weapon in both hands
+	 * DPS of secondary
 	 */
-	private int weapon1Dps;
 	private int weapon2Dps;
 
 	public DualDps() {
@@ -21,7 +20,7 @@ public class DualDps extends Dps {
 	 * @param that
 	 */
 	public DualDps(DualDps that) {
-		this.setWeapon1Dps(that.getWeapon1Dps());
+		this.setWeaponDps(that.getWeaponDps());
 		this.setWeapon2Dps(that.getWeapon2Dps());
 		this.setMainAttribute(that.getMainAttribute());
 		this.setIasPercent(that.getIasPercent());
@@ -33,17 +32,9 @@ public class DualDps extends Dps {
 	 * Calculate the combined dps of both hands
 	 */
 	@Override
-	public int getWeaponDps() {
+	public double getTotalWeaponDps() {
 		// dual wield has +15% attack speed bonus
-		return (int) Math.round((weapon1Dps + weapon2Dps) * 0.5 * 1.15);
-	}
-
-	public int getWeapon1Dps() {
-		return weapon1Dps;
-	}
-
-	public void setWeapon1Dps(int weapon1Dps) {
-		this.weapon1Dps = weapon1Dps;
+		return Math.round((weaponDps + weapon2Dps) * 0.5 * 1.15);
 	}
 
 	public int getWeapon2Dps() {
