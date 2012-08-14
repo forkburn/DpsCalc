@@ -1,12 +1,15 @@
 package com.warfactory.dpscalc.model;
 
+/**
+ * Model for calculating total DPS
+ */
 public class Dps {
 
 	/**
 	 * Weapon dps, as displayed in weapons's property
 	 */
 	private int weaponDps;
-	
+
 	/**
 	 * Character main attribute
 	 */
@@ -23,7 +26,8 @@ public class Dps {
 	private double critChance;
 
 	/**
-	 * Critical hit damage, in addition to normal damage, in percentage
+	 * Critical hit damage, in addition to normal damage. 1 means +100% critical
+	 * damage.
 	 */
 	private double critDamage;
 
@@ -31,7 +35,12 @@ public class Dps {
 
 	}
 
-	public Dps (Dps that) {
+	/**
+	 * Copy ctor
+	 * 
+	 * @param that
+	 */
+	public Dps(Dps that) {
 		this.weaponDps = that.weaponDps;
 		this.mainAttribute = that.mainAttribute;
 		this.iasPercent = that.iasPercent;
@@ -41,9 +50,10 @@ public class Dps {
 
 	public int getDps() {
 		double mainAttributeFactor = 1 + mainAttribute / 100.0;
-		double iasFactor = 1 + iasPercent;
+		// IAS is nerfed by 50% in v1.0.3
+		double iasFactor = 1 + iasPercent * 0.5;
 		double critHitFactor = 1 + critChance * critDamage;
-		return (int) (weaponDps * mainAttributeFactor * iasFactor * critHitFactor);
+		return (int) Math.round(getWeaponDps() * mainAttributeFactor * iasFactor * critHitFactor);
 	}
 
 	public int getWeaponDps() {
@@ -67,6 +77,9 @@ public class Dps {
 	}
 
 	public void setCritChance(double critChance) {
+		if (critChance > 1) {
+			critChance = 1;
+		}
 		this.critChance = critChance;
 	}
 
