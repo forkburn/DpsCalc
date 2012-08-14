@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/other_input_table_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     >
 
     <TableRow
-        android:id="@+id/tableRowMainAttrib"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
+
         <TextView
-            android:id="@+id/mainAttb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Main Attribute"
@@ -29,11 +26,9 @@
 
     <TableRow
         android:id="@+id/tableRowIas"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
+
         <TextView
-            android:id="@+id/ias"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Increase Attack Speed"
@@ -46,53 +41,50 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal" />
-
+
         <TextView
-            android:id="@+id/iasEditPct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="%"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-    </TableRow>
 
+    </TableRow>
+
     <TableRow
-        android:id="@+id/tableRowCritChance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
+
         <TextView
-            android:id="@+id/critChance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Critical Hit Chance"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
         <EditText
             android:id="@+id/critChanceEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
+            android:hint="0 - 100"
             android:inputType="numberDecimal" >
 
             <requestFocus />
         </EditText>
-
+
         <TextView
-            android:id="@+id/critChancePct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="%"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-    </TableRow>
 
+    </TableRow>
+
     <TableRow
-        android:id="@+id/tableRowCritDam"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
+
         <TextView
-            android:id="@+id/critDam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Critical Hit Damage"
@@ -105,39 +97,37 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="number" />
-
+
         <TextView
-            android:id="@+id/critDamPct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="%"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-    </TableRow>
 
+    </TableRow>
+
     <TableRow
-        android:id="@+id/tableRowCalcDps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp" >
-
+
         <TextView
-            android:id="@+id/calcDps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Calculated DPS"
+            android:text="Calculated DPS ="
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
         <TextView
             android:id="@+id/calcDpsDisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="DPS"
+            android:hint="--"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-    </TableRow>
 
+    </TableRow>
+
     <TableRow
-        android:id="@+id/tableRowForEach"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp" >
@@ -145,55 +135,54 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-
+
             <TextView
-                android:id="@+id/forEach"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="For"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
             <EditText
-                android:id="@+id/increaseEdit"
+                android:id="@+id/increaseValEdit"
                 android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="number" />
-
+
             <TextView
-                android:id="@+id/increaseIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="increase in"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
-        </LinearLayout>
 
+        </LinearLayout>
+
         <Spinner
-            android:id="@+id/increaseSpinner"
+            android:id="@+id/increaseVarSpinner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />
-    </TableRow>
 
+    </TableRow>
+
     <TableRow
-        android:id="@+id/tableRowDeltaDps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
+
         <TextView
-            android:id="@+id/deltaDps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delta DPS"
+            android:text="Increased DPS ="
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
         <TextView
             android:id="@+id/deltaDpsDisplay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Delta DPS"
+            android:hint="--"
             android:textAppearance="?android:attr/textAppearanceLarge" />
+
     </TableRow>
 
 </TableLayout>
