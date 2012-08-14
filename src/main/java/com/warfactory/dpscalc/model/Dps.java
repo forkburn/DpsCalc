@@ -52,7 +52,7 @@ public class Dps {
 	public int getDps() {
 		double mainAttributeFactor = 1 + mainAttribute / 100.0;
 		// IAS is nerfed by 50% in v1.0.3
-		double iasFactor = 1 + iasPercent / 100 * 0.5;
+		double iasFactor = 1 + iasPercent / 100.0 * 0.5;
 		double critHitFactor = 1 + critChance * critDamage;
 		return (int) Math.round(getTotalWeaponDps() * mainAttributeFactor * iasFactor * critHitFactor);
 	}

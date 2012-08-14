@@ -33,8 +33,8 @@ public class DualWeaponSectionFragment extends AbstractSectionFragment {
 			dps.setWeapon2Dps(Integer.valueOf(weapon2DpsEdit.getText().toString()));
 			dps.setMainAttribute(Integer.valueOf(mainAttribEdit.getText().toString()));
 			dps.setIasPercent(Double.valueOf(iasEdit.getText().toString()));
-			dps.setCritChance(Double.valueOf(critChanceEdit.getText().toString()) / 100);
-			dps.setCritDamage(Integer.valueOf(critDamEdit.getText().toString()) / 100);
+			dps.setCritChance(Double.valueOf(critChanceEdit.getText().toString()) / 100.0);
+			dps.setCritDamage(Integer.valueOf(critDamEdit.getText().toString()) / 100.0);
 			calcDpsDisplay.setText(String.valueOf(dps.getDps()));
 		} catch (NumberFormatException ex) {
 			// some of the input box is empty

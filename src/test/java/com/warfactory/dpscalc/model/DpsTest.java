@@ -28,7 +28,7 @@ public class DpsTest {
 		dps.setCritChance(critChance);
 		dps.setCritDamage(critDam);
 
-		int expectedDps = (int) Math.round(wpDps * (1 + mainAttrib / 100.0) * (1 + iasPercent * 0.5 / 100)
+		int expectedDps = (int) Math.round(wpDps * (1 + mainAttrib / 100.0) * (1 + iasPercent * 0.5 / 100.0)
 				* (1 + (critChance * critDam)));
 
 		assertEquals(expectedDps, dps.getDps());

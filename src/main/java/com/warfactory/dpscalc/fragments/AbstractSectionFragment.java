@@ -136,9 +136,9 @@ abstract public class AbstractSectionFragment extends Fragment implements TextWa
 		} else if ("I.A.S".equals(increasedVar)) {
 			increasedDps.setIasPercent(originalDps.getIasPercent() + increasedValue);
 		} else if ("Crit.Chance".equals(increasedVar)) {
-			increasedDps.setCritChance(originalDps.getCritChance() + increasedValue / 100);
+			increasedDps.setCritChance(originalDps.getCritChance() + increasedValue / 100.0);
 		} else if ("Crit.Dam".equals(increasedVar)) {
-			increasedDps.setCritDamage(originalDps.getCritDamage() + increasedValue / 100);
+			increasedDps.setCritDamage(originalDps.getCritDamage() + increasedValue / 100.0);
 		}
 		return increasedDps.getDps() - originalDps.getDps();
 	}
