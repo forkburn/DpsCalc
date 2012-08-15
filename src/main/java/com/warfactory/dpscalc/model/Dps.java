@@ -51,8 +51,7 @@ public class Dps {
 
 	public double getDps() {
 		double primaryAttributeFactor = 1 + primaryAttribute / 100.0;
-		// IAS is nerfed by 50% in v1.0.3
-		double iasFactor = 1 + iasPercent / 100.0 * 0.5;
+		double iasFactor = 1 + iasPercent / 100.0;
 		double critHitFactor = 1 + critChance * critDamage;
 		return weaponDps * primaryAttributeFactor * iasFactor * critHitFactor;
 	}

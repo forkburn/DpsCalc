@@ -31,7 +31,7 @@ public class DualfDpsTest {
 		dps.setCritDamage(critDam);
 
 		double expectedWeaponDps = (wp1Dps + wp2Dps) * 0.5;
-		double expectedDps = expectedWeaponDps * (1 + primaryAttrib / 100.0) * (1 + iasPercent * 0.5 / 100.0 + 0.15)
+		double expectedDps = expectedWeaponDps * (1 + primaryAttrib / 100.0) * (1 + iasPercent / 100.0 + 0.15)
 				* (1 + (critChance * critDam));
 
 		assertEquals(expectedDps, dps.getDps(), 1);

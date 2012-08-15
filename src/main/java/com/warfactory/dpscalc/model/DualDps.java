@@ -33,7 +33,7 @@ public class DualDps extends Dps {
 		double primaryAttributeFactor = 1 + getPrimaryAttribute() / 100.0;
 		// IAS is nerfed by 50% in v1.0.3
 		// dual wield has +15% attack speed bonus
-		double iasFactor = 1 + getIasPercent() / 100.0 * 0.5 + 0.15;
+		double iasFactor = 1 + getIasPercent() / 100.0 + 0.15;
 		double critHitFactor = 1 + getCritChance() * getCritDamage();
 		return getAverageWeaponDps() * primaryAttributeFactor * iasFactor * critHitFactor;
 	}
