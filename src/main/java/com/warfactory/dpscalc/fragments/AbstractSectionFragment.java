@@ -9,13 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.warfactory.dpscalc.R;
-import com.warfactory.dpscalc.model.Dps;
 
 abstract public class AbstractSectionFragment extends Fragment implements TextWatcher, OnItemSelectedListener {
 
@@ -74,18 +72,9 @@ abstract public class AbstractSectionFragment extends Fragment implements TextWa
 	}
 
 	/**
-	 * Init the spinner used to choose delta variable
+	 * Init the spinner and add listener
 	 */
-	private void initSpinner(View view) {
-		// populate spinner
-		spinner = (Spinner) view.findViewById(R.id.increaseVarSpinner);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
-				R.array.inputvars_array, android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
-		// set listener for spinner
-		spinner.setOnItemSelectedListener(this);
-	}
+	abstract protected void initSpinner(View view);
 
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -129,18 +118,5 @@ abstract public class AbstractSectionFragment extends Fragment implements TextWa
 	 * Read the delta input and calculate the delta dps
 	 */
 	abstract protected void recalculateDeltaDps();
-
-	protected int calcDeltaDps(Dps originalDps, Dps increasedDps, String increasedVar, double increasedValue) {
-		if ("Main Attrib.".equals(increasedVar)) {
-			increasedDps.setPrimaryAttribute(originalDps.getPrimaryAttribute() + (int) increasedValue);
-		} else if ("I.A.S".equals(increasedVar)) {
-			increasedDps.setIasPercent(originalDps.getIasPercent() + increasedValue);
-		} else if ("Crit.Chance".equals(increasedVar)) {
-			increasedDps.setCritChance(originalDps.getCritChance() + increasedValue / 100.0);
-		} else if ("Crit.Dam".equals(increasedVar)) {
-			increasedDps.setCritDamage(originalDps.getCritDamage() + increasedValue / 100.0);
-		}
-		return increasedDps.getDps() - originalDps.getDps();
-	}
 
 }
