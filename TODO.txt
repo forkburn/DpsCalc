@@ -1,3 +1,1 @@
-Add logic to handle dual wield dps
-Add icon
 Add about page
