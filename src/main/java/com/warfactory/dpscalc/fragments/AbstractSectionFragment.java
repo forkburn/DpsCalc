@@ -1,5 +1,7 @@
 package com.warfactory.dpscalc.fragments;
 
+import java.text.NumberFormat;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -17,7 +19,7 @@ import com.warfactory.dpscalc.R;
 
 abstract public class AbstractSectionFragment extends Fragment implements TextWatcher, OnItemSelectedListener {
 
-	protected EditText mainAttribEdit;
+	protected EditText primaryAttribEdit;
 	protected EditText iasEdit;
 	protected EditText critChanceEdit;
 	protected EditText critDamEdit;
@@ -26,6 +28,13 @@ abstract public class AbstractSectionFragment extends Fragment implements TextWa
 	protected EditText increasedValEdit;
 	protected TextView deltaDpsDisplay;
 	protected String selectedSpinnerItem;
+	protected NumberFormat formatter = NumberFormat.getInstance();
+
+	public AbstractSectionFragment() {
+		super();
+		formatter.setMaximumFractionDigits(2);
+		formatter.setMinimumFractionDigits(2);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,8 +60,8 @@ abstract public class AbstractSectionFragment extends Fragment implements TextWa
 	 * Init the other input box that are common
 	 */
 	private void initOtherBoxes(View view) {
-		mainAttribEdit = (EditText) view.findViewById(R.id.mainAttbEdit);
-		mainAttribEdit.addTextChangedListener(this);
+		primaryAttribEdit = (EditText) view.findViewById(R.id.mainAttbEdit);
+		primaryAttribEdit.addTextChangedListener(this);
 
 		iasEdit = (EditText) view.findViewById(R.id.iasEdit);
 		iasEdit.addTextChangedListener(this);

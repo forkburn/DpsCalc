@@ -8,7 +8,7 @@ public class Dps {
 	/**
 	 * Weapon dps, as displayed in weapons's property
 	 */
-	protected int weaponDps;
+	protected double weaponDps;
 
 	/**
 	 * Character main attribute
@@ -49,23 +49,19 @@ public class Dps {
 		this.setCritDamage(that.getCritDamage());
 	}
 
-	public int getDps() {
+	public double getDps() {
 		double primaryAttributeFactor = 1 + primaryAttribute / 100.0;
 		// IAS is nerfed by 50% in v1.0.3
 		double iasFactor = 1 + iasPercent / 100.0 * 0.5;
 		double critHitFactor = 1 + critChance * critDamage;
-		return (int) Math.round(getTotalWeaponDps() * primaryAttributeFactor * iasFactor * critHitFactor);
+		return weaponDps * primaryAttributeFactor * iasFactor * critHitFactor;
 	}
 
-	public double getTotalWeaponDps() {
+	public double getWeaponDps() {
 		return weaponDps;
 	}
 
-	public int getWeaponDps() {
-		return weaponDps;
-	}
-
-	public void setWeaponDps(int weaponDps) {
+	public void setWeaponDps(double weaponDps) {
 		this.weaponDps = weaponDps;
 	}
 

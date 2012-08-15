@@ -14,6 +14,10 @@ public class SingleWeaponSectionFragment extends AbstractSectionFragment {
 	private Dps dps = new Dps();
 	private EditText weaponDpsEdit;
 
+	public SingleWeaponSectionFragment() {
+		super();
+	}
+
 	@Override
 	protected View initView(LayoutInflater inflater, ViewGroup container) {
 		return inflater.inflate(R.layout.single_weapon, container, false);
@@ -40,12 +44,13 @@ public class SingleWeaponSectionFragment extends AbstractSectionFragment {
 	@Override
 	protected void recalculateDps() {
 		try {
-			dps.setWeaponDps(Integer.valueOf(weaponDpsEdit.getText().toString()));
-			dps.setPrimaryAttribute(Integer.valueOf(mainAttribEdit.getText().toString()));
+			dps.setWeaponDps(Double.valueOf(weaponDpsEdit.getText().toString()));
+			dps.setPrimaryAttribute(Integer.valueOf(primaryAttribEdit.getText().toString()));
 			dps.setIasPercent(Double.valueOf(iasEdit.getText().toString()));
 			dps.setCritChance(Double.valueOf(critChanceEdit.getText().toString()) / 100.0);
-			dps.setCritDamage(Integer.valueOf(critDamEdit.getText().toString()) / 100.0);
-			calcDpsDisplay.setText(String.valueOf(dps.getDps()));
+			dps.setCritDamage(Double.valueOf(critDamEdit.getText().toString()) / 100.0);
+
+			calcDpsDisplay.setText(formatter.format(dps.getDps()));
 		} catch (NumberFormatException ex) {
 			// some of the input box is empty
 			calcDpsDisplay.setText("");
@@ -59,7 +64,7 @@ public class SingleWeaponSectionFragment extends AbstractSectionFragment {
 			Dps increasedDps = new Dps(dps);
 
 			if ("Wp. Dam.".equals(selectedSpinnerItem)) {
-				increasedDps.setWeaponDps(dps.getWeaponDps() + (int) increasedValue);
+				increasedDps.setWeaponDps(dps.getWeaponDps() + increasedValue);
 			} else if ("Pri. Attrib.".equals(selectedSpinnerItem)) {
 				increasedDps.setPrimaryAttribute(dps.getPrimaryAttribute() + (int) increasedValue);
 			} else if ("I.A.S".equals(selectedSpinnerItem)) {
@@ -69,8 +74,8 @@ public class SingleWeaponSectionFragment extends AbstractSectionFragment {
 			} else if ("Crit.Dam.".equals(selectedSpinnerItem)) {
 				increasedDps.setCritDamage(dps.getCritDamage() + increasedValue / 100.0);
 			}
-			int deltaDps = increasedDps.getDps() - dps.getDps();
-			deltaDpsDisplay.setText(String.valueOf(deltaDps));
+			double deltaDps = increasedDps.getDps() - dps.getDps();
+			deltaDpsDisplay.setText(formatter.format(deltaDps));
 		} catch (NumberFormatException ex) {
 			deltaDpsDisplay.setText("");
 		}

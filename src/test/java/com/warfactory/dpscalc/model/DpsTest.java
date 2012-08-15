@@ -16,7 +16,7 @@ public class DpsTest {
 
 	@Test
 	public void testDps() {
-		int wpDps = 300;
+		double wpDps = 300;
 		int primaryAttrib = 500;
 		double iasPercent = 20;
 		double critChance = 0.4;
@@ -28,9 +28,9 @@ public class DpsTest {
 		dps.setCritChance(critChance);
 		dps.setCritDamage(critDam);
 
-		int expectedDps = (int) Math.round(wpDps * (1 + primaryAttrib / 100.0) * (1 + iasPercent * 0.5 / 100.0)
-				* (1 + (critChance * critDam)));
+		double expectedDps = wpDps * (1 + primaryAttrib / 100.0) * (1 + iasPercent * 0.5 / 100.0)
+				* (1 + (critChance * critDam));
 
-		assertEquals(expectedDps, dps.getDps());
+		assertEquals(expectedDps, dps.getDps(), 1);
 	}
 }

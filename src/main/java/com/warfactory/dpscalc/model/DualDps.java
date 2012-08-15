@@ -8,7 +8,7 @@ public class DualDps extends Dps {
 	/**
 	 * DPS of secondary
 	 */
-	private int weapon2Dps;
+	private double weapon2Dps;
 
 	public DualDps() {
 
@@ -28,20 +28,28 @@ public class DualDps extends Dps {
 		this.setCritDamage(that.getCritDamage());
 	}
 
+	@Override
+	public double getDps() {
+		double primaryAttributeFactor = 1 + getPrimaryAttribute() / 100.0;
+		// IAS is nerfed by 50% in v1.0.3
+		// dual wield has +15% attack speed bonus
+		double iasFactor = 1 + getIasPercent() / 100.0 * 0.5 + 0.15;
+		double critHitFactor = 1 + getCritChance() * getCritDamage();
+		return getAverageWeaponDps() * primaryAttributeFactor * iasFactor * critHitFactor;
+	}
+
 	/**
 	 * Calculate the combined dps of both hands
 	 */
-	@Override
-	public double getTotalWeaponDps() {
-		// dual wield has +15% attack speed bonus
-		return Math.round((weaponDps + weapon2Dps) * 0.5 * 1.15);
+	private double getAverageWeaponDps() {
+		return (weaponDps + weapon2Dps) * 0.5;
 	}
 
-	public int getWeapon2Dps() {
+	public double getWeapon2Dps() {
 		return weapon2Dps;
 	}
 
-	public void setWeapon2Dps(int weapon2Dps) {
+	public void setWeapon2Dps(double weapon2Dps) {
 		this.weapon2Dps = weapon2Dps;
 	}
 
