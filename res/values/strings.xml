@@ -1,11 +1,10 @@
 <resources>
 
-    <string name="app_name">DpsCalc</string>
+    <string name="app_name">Diablo 3 DPS Calculator</string>
     <string name="title_single_weapon">Single Weapon</string>
     <string name="title_dual_weapon">Dual Weapons</string>
-    <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">D3 DPS Calculator</string>
+    <string name="title_activity_main">Diablo 3 DPS Calculator</string>
 
     <string-array name="single_weapon_spinner_array">
         <item>Wp. Dam.</item>
