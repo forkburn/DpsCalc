@@ -25,14 +25,15 @@
                     android:layout_height="wrap_content"
                     android:text="Weapon 1 DPS"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
                 <EditText
                     android:id="@+id/wp1DpsEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
+
             </TableRow>
 
             <TableRow
@@ -44,14 +45,15 @@
                     android:layout_height="wrap_content"
                     android:text="Weapon 2 DPS"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
                 <EditText
                     android:id="@+id/wp2DpsEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
+
             </TableRow>
         </TableLayout>
 
