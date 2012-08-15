@@ -105,11 +105,11 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </TableRow>
-
+
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp" >
+        android:layout_marginTop="20dp" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -126,11 +126,11 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </TableRow>
-
+
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp" >
+        android:layout_marginTop="20dp" >
 
         <LinearLayout
             android:layout_width="wrap_content"
