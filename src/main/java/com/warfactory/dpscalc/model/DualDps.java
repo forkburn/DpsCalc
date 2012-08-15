@@ -22,7 +22,7 @@ public class DualDps extends Dps {
 	public DualDps(DualDps that) {
 		this.setWeaponDps(that.getWeaponDps());
 		this.setWeapon2Dps(that.getWeapon2Dps());
-		this.setMainAttribute(that.getMainAttribute());
+		this.setPrimaryAttribute(that.getPrimaryAttribute());
 		this.setIasPercent(that.getIasPercent());
 		this.setCritChance(that.getCritChance());
 		this.setCritDamage(that.getCritDamage());

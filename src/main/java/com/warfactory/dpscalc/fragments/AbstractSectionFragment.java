@@ -132,7 +132,7 @@ abstract public class AbstractSectionFragment extends Fragment implements TextWa
 
 	protected int calcDeltaDps(Dps originalDps, Dps increasedDps, String increasedVar, double increasedValue) {
 		if ("Main Attrib.".equals(increasedVar)) {
-			increasedDps.setMainAttribute(originalDps.getMainAttribute() + (int) increasedValue);
+			increasedDps.setPrimaryAttribute(originalDps.getPrimaryAttribute() + (int) increasedValue);
 		} else if ("I.A.S".equals(increasedVar)) {
 			increasedDps.setIasPercent(originalDps.getIasPercent() + increasedValue);
 		} else if ("Crit.Chance".equals(increasedVar)) {

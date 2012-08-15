@@ -27,7 +27,7 @@ public class SingleWeaponSectionFragment extends AbstractSectionFragment {
 	protected void recalculateDps() {
 		try {
 			dps.setWeaponDps(Integer.valueOf(weaponDpsEdit.getText().toString()));
-			dps.setMainAttribute(Integer.valueOf(mainAttribEdit.getText().toString()));
+			dps.setPrimaryAttribute(Integer.valueOf(mainAttribEdit.getText().toString()));
 			dps.setIasPercent(Double.valueOf(iasEdit.getText().toString()));
 			dps.setCritChance(Double.valueOf(critChanceEdit.getText().toString()) / 100.0);
 			dps.setCritDamage(Integer.valueOf(critDamEdit.getText().toString()) / 100.0);

@@ -13,7 +13,7 @@ public class Dps {
 	/**
 	 * Character main attribute
 	 */
-	private int mainAttribute;
+	private int primaryAttribute;
 
 	/**
 	 * Increased attack speed percentage, from items other than weapon. 1 means
@@ -43,18 +43,18 @@ public class Dps {
 	 */
 	public Dps(Dps that) {
 		this.setWeaponDps(that.getWeaponDps());
-		this.setMainAttribute(that.getMainAttribute());
+		this.setPrimaryAttribute(that.getPrimaryAttribute());
 		this.setIasPercent(that.getIasPercent());
 		this.setCritChance(that.getCritChance());
 		this.setCritDamage(that.getCritDamage());
 	}
 
 	public int getDps() {
-		double mainAttributeFactor = 1 + mainAttribute / 100.0;
+		double primaryAttributeFactor = 1 + primaryAttribute / 100.0;
 		// IAS is nerfed by 50% in v1.0.3
 		double iasFactor = 1 + iasPercent / 100.0 * 0.5;
 		double critHitFactor = 1 + critChance * critDamage;
-		return (int) Math.round(getTotalWeaponDps() * mainAttributeFactor * iasFactor * critHitFactor);
+		return (int) Math.round(getTotalWeaponDps() * primaryAttributeFactor * iasFactor * critHitFactor);
 	}
 
 	public double getTotalWeaponDps() {
@@ -96,12 +96,12 @@ public class Dps {
 		this.critDamage = critDamage;
 	}
 
-	public int getMainAttribute() {
-		return mainAttribute;
+	public int getPrimaryAttribute() {
+		return primaryAttribute;
 	}
 
-	public void setMainAttribute(int mainAttribute) {
-		this.mainAttribute = mainAttribute;
+	public void setPrimaryAttribute(int mainAttribute) {
+		this.primaryAttribute = mainAttribute;
 	}
 
 }
