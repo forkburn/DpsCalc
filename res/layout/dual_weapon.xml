@@ -57,7 +57,7 @@
             </TableRow>
         </TableLayout>
 
-        <include layout="@layout/other_input" />
+        <include layout="@layout/common_input" />
     </LinearLayout>
 
 </ScrollView>
