@@ -34,15 +34,20 @@ public class DualWeaponSectionFragment extends AbstractSectionFragment {
 	}
 
 	@Override
-	protected void initWeaponDpsBoxes(View view, Bundle savedInstanceState) {
+	protected void initWeaponDpsBoxes(View view) {
 		weapon1DpsEdit = (EditText) view.findViewById(R.id.wp1DpsEdit);
 		weapon1DpsEdit.addTextChangedListener(this);
 		weapon2DpsEdit = (EditText) view.findViewById(R.id.wp2DpsEdit);
 		weapon2DpsEdit.addTextChangedListener(this);
+
+	}
+
+	@Override
+	protected void restoreWeaponDpsBoxes(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
 			// restore saved state
-			weapon1DpsEdit.setText(savedInstanceState.getString("weapon1DpsEdit"));
-			weapon2DpsEdit.setText(savedInstanceState.getString("weapon2DpsEdit"));
+			weapon1DpsEdit.setText(savedInstanceState.getString("weapon1DpsEdit", ""));
+			weapon2DpsEdit.setText(savedInstanceState.getString("weapon2DpsEdit", ""));
 		}
 	}
 

@@ -33,12 +33,16 @@ public class SingleWeaponSectionFragment extends AbstractSectionFragment {
 	}
 
 	@Override
-	protected void initWeaponDpsBoxes(View view, Bundle savedInstanceState) {
+	protected void initWeaponDpsBoxes(View view) {
 		weaponDpsEdit = (EditText) view.findViewById(R.id.wpDpsEdit);
 		weaponDpsEdit.addTextChangedListener(this);
+	}
+
+	@Override
+	protected void restoreWeaponDpsBoxes(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
 			// restore saved state
-			weaponDpsEdit.setText(savedInstanceState.getString("weaponDpsEdit"));
+			weaponDpsEdit.setText(savedInstanceState.getString("weaponDpsEdit", ""));
 		}
 	}
 

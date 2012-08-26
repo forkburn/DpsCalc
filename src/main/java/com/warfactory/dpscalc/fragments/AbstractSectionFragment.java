@@ -40,9 +40,11 @@ abstract public class AbstractSectionFragment extends Fragment implements TextWa
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// create layout as view
 		View view = initView(inflater, container);
-		initWeaponDpsBoxes(view, savedInstanceState);
-		initCommonBoxes(view, savedInstanceState);
+		initWeaponDpsBoxes(view);
+		initCommonBoxes(view);
 		initSpinner(view);
+		restoreWeaponDpsBoxes(savedInstanceState);
+		restoreCommonBoxes(savedInstanceState);
 		return view;
 	}
 
@@ -54,12 +56,12 @@ abstract public class AbstractSectionFragment extends Fragment implements TextWa
 	/**
 	 * Init the weapon DPS input boxes
 	 */
-	abstract protected void initWeaponDpsBoxes(View view, Bundle savedInstanceState);
+	abstract protected void initWeaponDpsBoxes(View view);
 
 	/**
 	 * Init the other input box that are common
 	 */
-	private void initCommonBoxes(View view, Bundle savedInstanceState) {
+	private void initCommonBoxes(View view) {
 		primaryAttribEdit = (EditText) view.findViewById(R.id.mainAttbEdit);
 		primaryAttribEdit.addTextChangedListener(this);
 
@@ -79,19 +81,29 @@ abstract public class AbstractSectionFragment extends Fragment implements TextWa
 
 		deltaDpsDisplay = (TextView) view.findViewById(R.id.deltaDpsDisplay);
 
-		if (savedInstanceState != null) {
-			// restore state
-			primaryAttribEdit.setText(savedInstanceState.getString("primaryAttribEdit"));
-			iasEdit.setText(savedInstanceState.getString("iasEdit"));
-			critChanceEdit.setText(savedInstanceState.getString("critChance"));
-			critDamEdit.setText(savedInstanceState.getString("critDam"));
-		}
 	}
 
 	/**
 	 * Init the spinner and add listener
 	 */
 	abstract protected void initSpinner(View view);
+
+	/**
+	 * Restore previous input data for weapon dps input boxes
+	 */
+	abstract protected void restoreWeaponDpsBoxes(Bundle savedInstanceState);
+
+	/**
+	 * Restore previous input data for common input boxes
+	 */
+	private void restoreCommonBoxes(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			primaryAttribEdit.setText(savedInstanceState.getString("primaryAttribEdit", ""));
+			iasEdit.setText(savedInstanceState.getString("iasEdit", ""));
+			critChanceEdit.setText(savedInstanceState.getString("critChance", ""));
+			critDamEdit.setText(savedInstanceState.getString("critDam", ""));
+		}
+	}
 
 	/**
 	 * Save input data before fragment is destroyed
