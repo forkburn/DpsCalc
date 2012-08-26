@@ -11,7 +11,7 @@ public class DualDps extends Dps {
 	private double weapon2Dps;
 
 	public DualDps() {
-
+		super();
 	}
 
 	/**

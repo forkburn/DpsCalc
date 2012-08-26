@@ -33,7 +33,7 @@ public class Dps {
 	private double critDamage;
 
 	public Dps() {
-
+		// default ctor
 	}
 
 	/**
@@ -78,9 +78,10 @@ public class Dps {
 
 	public void setCritChance(double critChance) {
 		if (critChance > 1) {
-			critChance = 1;
+			this.critChance = 1;
+		} else {
+			this.critChance = critChance;
 		}
-		this.critChance = critChance;
 	}
 
 	public double getCritDamage() {
