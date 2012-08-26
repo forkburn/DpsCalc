@@ -40,8 +40,8 @@ abstract public class AbstractSectionFragment extends Fragment implements TextWa
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// create layout as view
 		View view = initView(inflater, container);
-		initWeaponDpsBoxes(view);
-		initOtherBoxes(view);
+		initWeaponDpsBoxes(view, savedInstanceState);
+		initCommonBoxes(view, savedInstanceState);
 		initSpinner(view);
 		return view;
 	}
@@ -54,12 +54,12 @@ abstract public class AbstractSectionFragment extends Fragment implements TextWa
 	/**
 	 * Init the weapon DPS input boxes
 	 */
-	abstract protected void initWeaponDpsBoxes(View view);
+	abstract protected void initWeaponDpsBoxes(View view, Bundle savedInstanceState);
 
 	/**
 	 * Init the other input box that are common
 	 */
-	private void initOtherBoxes(View view) {
+	private void initCommonBoxes(View view, Bundle savedInstanceState) {
 		primaryAttribEdit = (EditText) view.findViewById(R.id.mainAttbEdit);
 		primaryAttribEdit.addTextChangedListener(this);
 
@@ -78,12 +78,39 @@ abstract public class AbstractSectionFragment extends Fragment implements TextWa
 		increasedValEdit.addTextChangedListener(this);
 
 		deltaDpsDisplay = (TextView) view.findViewById(R.id.deltaDpsDisplay);
+
+		if (savedInstanceState != null) {
+			// restore state
+			primaryAttribEdit.setText(savedInstanceState.getString("primaryAttribEdit"));
+			iasEdit.setText(savedInstanceState.getString("iasEdit"));
+			critChanceEdit.setText(savedInstanceState.getString("critChance"));
+			critDamEdit.setText(savedInstanceState.getString("critDam"));
+		}
 	}
 
 	/**
 	 * Init the spinner and add listener
 	 */
 	abstract protected void initSpinner(View view);
+
+	/**
+	 * Save input data before fragment is destroyed
+	 */
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		saveWeaponBoxState(outState);
+		saveCommonBoxState(outState);
+	}
+
+	abstract protected void saveWeaponBoxState(Bundle outState);
+
+	private void saveCommonBoxState(Bundle outState) {
+		outState.putString("primaryAttribEdit", primaryAttribEdit.getText().toString());
+		outState.putString("iasEdit", iasEdit.getText().toString());
+		outState.putString("critChance", critChanceEdit.getText().toString());
+		outState.putString("critDam", critDamEdit.getText().toString());
+	}
 
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count, int after) {

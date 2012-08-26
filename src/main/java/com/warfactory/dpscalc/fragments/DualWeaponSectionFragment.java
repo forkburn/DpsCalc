@@ -1,5 +1,6 @@
 package com.warfactory.dpscalc.fragments;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +12,9 @@ import com.warfactory.dpscalc.R;
 import com.warfactory.dpscalc.model.DualDps;
 
 public class DualWeaponSectionFragment extends AbstractSectionFragment {
-	private DualDps dps = new DualDps();
+	private final DualDps dps = new DualDps();
 	private EditText weapon1DpsEdit;
 	private EditText weapon2DpsEdit;
-
-	public DualWeaponSectionFragment() {
-		super();
-	}
 
 	@Override
 	protected View initView(LayoutInflater inflater, ViewGroup container) {
@@ -37,11 +34,16 @@ public class DualWeaponSectionFragment extends AbstractSectionFragment {
 	}
 
 	@Override
-	protected void initWeaponDpsBoxes(View view) {
+	protected void initWeaponDpsBoxes(View view, Bundle savedInstanceState) {
 		weapon1DpsEdit = (EditText) view.findViewById(R.id.wp1DpsEdit);
 		weapon1DpsEdit.addTextChangedListener(this);
 		weapon2DpsEdit = (EditText) view.findViewById(R.id.wp2DpsEdit);
 		weapon2DpsEdit.addTextChangedListener(this);
+		if (savedInstanceState != null) {
+			// restore saved state
+			weapon1DpsEdit.setText(savedInstanceState.getString("weapon1DpsEdit"));
+			weapon2DpsEdit.setText(savedInstanceState.getString("weapon2DpsEdit"));
+		}
 	}
 
 	@Override
@@ -84,6 +86,12 @@ public class DualWeaponSectionFragment extends AbstractSectionFragment {
 		} catch (NumberFormatException ex) {
 			deltaDpsDisplay.setText("");
 		}
+	}
+
+	@Override
+	protected void saveWeaponBoxState(Bundle outState) {
+		outState.putString("weapon1DpsEdit", weapon1DpsEdit.getText().toString());
+		outState.putString("weapon2DpsEdit", weapon2DpsEdit.getText().toString());
 	}
 
 }

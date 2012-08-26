@@ -1,5 +1,6 @@
 package com.warfactory.dpscalc.fragments;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,8 @@ import com.warfactory.dpscalc.R;
 import com.warfactory.dpscalc.model.Dps;
 
 public class SingleWeaponSectionFragment extends AbstractSectionFragment {
-	private Dps dps = new Dps();
+	private final Dps dps = new Dps();
 	private EditText weaponDpsEdit;
-
-	public SingleWeaponSectionFragment() {
-		super();
-	}
 
 	@Override
 	protected View initView(LayoutInflater inflater, ViewGroup container) {
@@ -36,9 +33,13 @@ public class SingleWeaponSectionFragment extends AbstractSectionFragment {
 	}
 
 	@Override
-	protected void initWeaponDpsBoxes(View view) {
+	protected void initWeaponDpsBoxes(View view, Bundle savedInstanceState) {
 		weaponDpsEdit = (EditText) view.findViewById(R.id.wpDpsEdit);
 		weaponDpsEdit.addTextChangedListener(this);
+		if (savedInstanceState != null) {
+			// restore saved state
+			weaponDpsEdit.setText(savedInstanceState.getString("weaponDpsEdit"));
+		}
 	}
 
 	@Override
@@ -80,4 +81,10 @@ public class SingleWeaponSectionFragment extends AbstractSectionFragment {
 			deltaDpsDisplay.setText("");
 		}
 	}
+
+	@Override
+	protected void saveWeaponBoxState(Bundle outState) {
+		outState.putString("weaponDpsEdit", weaponDpsEdit.getText().toString());
+	}
+
 }
