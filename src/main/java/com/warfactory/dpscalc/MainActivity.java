@@ -39,7 +39,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		// Set up the ViewPager with the sections adapter.
-		viewPager = (ViewPager) findViewById(R.id.pager);
+		viewPager = (ViewPager) findViewById(R.id.mainActivityPager);
 		viewPager.setAdapter(sectionsPagerAdapter);
 
 		// When swiping between different sections, select the corresponding
