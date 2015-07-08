@@ -1,3 +1,3 @@
-convert to android studio build
+
 change to latest android theme
 modify formula for latest game version
