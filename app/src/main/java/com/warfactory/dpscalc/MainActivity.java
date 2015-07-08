@@ -66,7 +66,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO create a help/about page from here
 		getMenuInflater().inflate(R.menu.activity_main, menu);
-		// return true;
 		return false;
 	}
 
