@@ -2,9 +2,12 @@ package com.warfactory.dpscalc;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,16 +17,17 @@ import android.widget.ListView;
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
 import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
 import com.warfactory.dpscalc.fragments.DpsCalculationFragment;
+import com.warfactory.dpscalc.fragments.RenameProfileDialogFragment;
 import com.warfactory.dpscalc.model.CharacterProfile;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements RenameProfileDialogFragment.RenameProfileDialogListener {
     private List<String> mDrawerItems;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-
+    private int currentProfileIndex;
     private List<CharacterProfile> mCharacterProfileList;
     private DrawerArrowDrawable drawerArrow;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -58,7 +62,7 @@ public class MainActivity extends Activity {
         };
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 drawerArrow, R.string.drawer_open,
-                R.string.drawer_close)  {
+                R.string.drawer_close) {
 
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -73,8 +77,6 @@ public class MainActivity extends Activity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-
-
 
 
         initCharacterProfiles();
@@ -116,9 +118,24 @@ public class MainActivity extends Activity {
         return result;
     }
 
+    // when user renames current profile
+    @Override
+    public void onDialogPositiveClick(String newProfileName) {
+        // save the new profile name
+        mCharacterProfileList.get(currentProfileIndex).setName(newProfileName);
+        // display new name on action bar
+        this.setTitle(newProfileName);
+        // change the names in drawer
+        this.mDrawerItems.set(this.currentProfileIndex,newProfileName);
+        mDrawerList.invalidateViews();
+    }
+
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
+            // remember the index of the currently selected profile
+            currentProfileIndex = position;
             selectItem(position);
         }
     }
@@ -154,15 +171,35 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // toggle the drawer when button on action bar pressed
-        if (item.getItemId() == android.R.id.home) {
-            if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
-                mDrawerLayout.closeDrawer(mDrawerList);
-            } else {
-                mDrawerLayout.openDrawer(mDrawerList);
-            }
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                toggleDrawer();
+
+                break;
+            case R.id.action_rename_profile:
+                popRenameProfileDialog();
+
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void popRenameProfileDialog() {
+        // pop a dialog to rename current character profile
+
+        //TODO the dialog should contain the old profile name, selected
+        DialogFragment newFragment = new RenameProfileDialogFragment();
+        newFragment.show(getFragmentManager(), "renameProfile");
+
+    }
+
+    private void toggleDrawer() {
+        // toggle the drawer when button on action bar pressed
+        if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+            mDrawerLayout.closeDrawer(mDrawerList);
+        } else {
+            mDrawerLayout.openDrawer(mDrawerList);
+        }
     }
 
     @Override
@@ -175,5 +212,13 @@ public class MainActivity extends Activity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

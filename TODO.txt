@@ -1,7 +1,3 @@
-input form should remain empty if value is 0.
-input form should display integer
-
-use butn to activate drawer.
 
 enable storing multiple sets of dps entries.
     on launch,
@@ -12,8 +8,6 @@ enable storing multiple sets of dps entries.
 
 write a storage class that abstracts the underlying saving system
 
-on user click add item button,
-    ask for item name, ask if it's single or duel wield.
 
 
 user can click existing character to rename him
