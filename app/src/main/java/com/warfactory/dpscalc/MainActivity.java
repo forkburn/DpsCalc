@@ -1,17 +1,14 @@
 package com.warfactory.dpscalc;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 
-import com.warfactory.dpscalc.fragments.AbstractSectionFragment;
-import com.warfactory.dpscalc.fragments.DualWeaponSectionFragment;
+import com.warfactory.dpscalc.fragments.DpsCalculationFragment;
 import com.warfactory.dpscalc.model.Dps;
 
 public class MainActivity extends Activity {
@@ -56,10 +53,10 @@ public class MainActivity extends Activity {
      */
     private void selectItem(int position) {
 
-        AbstractSectionFragment fragment = null;
+        DpsCalculationFragment fragment = null;
         Dps selectedDps = mDpsList[position];
         // Create a new fragment and specify the planet to show based on position
-        fragment = new DualWeaponSectionFragment();
+        fragment = new DpsCalculationFragment();
 
         fragment.setDps(selectedDps);
 
