@@ -9,16 +9,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.warfactory.dpscalc.R;
-import com.warfactory.dpscalc.model.DualDps;
+import com.warfactory.dpscalc.model.Dps;
 
 public class DualWeaponSectionFragment extends AbstractSectionFragment {
-	private final DualDps dps = new DualDps();
 	private EditText weapon1DpsEdit;
 	private EditText weapon2DpsEdit;
 
 	@Override
 	protected View initView(LayoutInflater inflater, ViewGroup container) {
-		return inflater.inflate(R.layout.dual_weapon, container, false);
+		return inflater.inflate(R.layout.input_form, container, false);
 	}
 
 	@Override
@@ -54,7 +53,7 @@ public class DualWeaponSectionFragment extends AbstractSectionFragment {
 	@Override
 	protected void recalculateDps() {
 		try {
-			dps.setWeaponDps(Double.valueOf(weapon1DpsEdit.getText().toString()));
+			dps.setWeapon1Dps(Double.valueOf(weapon1DpsEdit.getText().toString()));
 			dps.setWeapon2Dps(Double.valueOf(weapon2DpsEdit.getText().toString()));
 			dps.setPrimaryAttribute(Integer.valueOf(primaryAttribEdit.getText().toString()));
 			dps.setIasPercent(Double.valueOf(iasEdit.getText().toString()));
@@ -71,19 +70,19 @@ public class DualWeaponSectionFragment extends AbstractSectionFragment {
 	protected void recalculateDeltaDps() {
 		try {
 			double increasedValue = Double.valueOf(increasedValEdit.getText().toString());
-			DualDps increasedDps = new DualDps(dps);
+			Dps increasedDps = new Dps(dps);
 
-			if ("Wp.1 Dam.".equals(selectedSpinnerItem)) {
-				increasedDps.setWeaponDps(dps.getWeaponDps() + increasedValue);
-			} else if ("Wp.2 Dam.".equals(selectedSpinnerItem)) {
+			if ("Weapon 1 Dam".equals(selectedSpinnerItem)) {
+				increasedDps.setWeapon1Dps(dps.getWeapon1Dps() + increasedValue);
+			} else if ("Weapon 2 Dam".equals(selectedSpinnerItem)) {
 				increasedDps.setWeapon2Dps(dps.getWeapon2Dps() + increasedValue);
-			} else if ("Pri. Attrib.".equals(selectedSpinnerItem)) {
+			} else if ("Primary Attrib".equals(selectedSpinnerItem)) {
 				increasedDps.setPrimaryAttribute(dps.getPrimaryAttribute() + (int) increasedValue);
-			} else if ("I.A.S".equals(selectedSpinnerItem)) {
+			} else if ("Inc Attack Speed".equals(selectedSpinnerItem)) {
 				increasedDps.setIasPercent(dps.getIasPercent() + increasedValue);
-			} else if ("Crit.Chance".equals(selectedSpinnerItem)) {
+			} else if ("Crit Chance".equals(selectedSpinnerItem)) {
 				increasedDps.setCritChance(dps.getCritChance() + increasedValue / 100.0);
-			} else if ("Crit.Dam.".equals(selectedSpinnerItem)) {
+			} else if ("Crit Dam".equals(selectedSpinnerItem)) {
 				increasedDps.setCritDamage(dps.getCritDamage() + increasedValue / 100.0);
 			}
 			double deltaDps = increasedDps.getDps() - dps.getDps();

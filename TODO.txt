@@ -1,3 +1,17 @@
 
-change to latest android theme
-modify formula for latest game version
+enable storing multiple sets of dps entries.
+    on launch,
+        if db empty,  generate a dps entry in drawer.
+           when app exits, save item to db
+        if db has entry, load entry to drawer.
+
+
+write a storage class that abstracts the underlying saving system
+
+on user click add item button,
+    ask for item name, ask if it's single or duel wield.
+
+
+user can click existing character to rename him
+
+add about page

@@ -1,89 +1,82 @@
 package com.warfactory.dpscalc;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
+import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.view.Menu;
+import android.support.v4.widget.DrawerLayout;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
+import android.widget.ListView;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+import com.warfactory.dpscalc.fragments.AbstractSectionFragment;
+import com.warfactory.dpscalc.fragments.DualWeaponSectionFragment;
+import com.warfactory.dpscalc.model.Dps;
 
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide
-	 * fragments for each of the sections. We use a
-	 * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
-	 * will keep every loaded fragment in memory. If this becomes too memory
-	 * intensive, it may be best to switch to a
-	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-	 */
-	private SectionsPagerAdapter sectionsPagerAdapter;
+public class MainActivity extends Activity {
+    private String[] mDrawerItems;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
 
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
-	private ViewPager viewPager;
+    private Dps[] mDpsList;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-		setContentView(R.layout.activity_main);
+        // TODO: should try to load character data from db
+        Dps dps = new Dps();
+        mDpsList = new Dps[1];
+        mDpsList[0] = dps;
+        mDrawerItems = new String[]{"Character 1"};
 
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the app.
-		sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), getApplicationContext());
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-		// Set up the action bar.
-		final ActionBar actionBar = getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-		// Set up the ViewPager with the sections adapter.
-		viewPager = (ViewPager) findViewById(R.id.mainActivityPager);
-		viewPager.setAdapter(sectionsPagerAdapter);
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, mDrawerItems));
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-		// When swiping between different sections, select the corresponding
-		// tab.
-		viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-			@Override
-			public void onPageSelected(int position) {
-				actionBar.setSelectedNavigationItem(position);
-			}
-		});
+    }
 
-		// For each of the sections in the app, add a tab to the action bar.
-		for (int i = 0; i < sectionsPagerAdapter.getCount(); i++) {
-			// Create a tab with text corresponding to the page title defined by
-			// the adapter.
-			// Also specify this Activity object, which implements the
-			// TabListener interface, as the
-			// listener for when this tab is selected.
-			actionBar.addTab(actionBar.newTab().setText(sectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
-		}
-	}
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO create a help/about page from here
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return false;
-	}
+    /**
+     * Swaps fragments in the main content view
+     */
+    private void selectItem(int position) {
 
-	@Override
-	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-		// nothing to do
-	}
+        AbstractSectionFragment fragment = null;
+        Dps selectedDps = mDpsList[position];
+        // Create a new fragment and specify the planet to show based on position
+        fragment = new DualWeaponSectionFragment();
 
-	@Override
-	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-		// When the given tab is selected, switch to the corresponding page in
-		// the ViewPager.
-		viewPager.setCurrentItem(tab.getPosition());
-	}
+        fragment.setDps(selectedDps);
 
-	@Override
-	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-		// nothing to do
-	}
+        // Insert the fragment by replacing any existing fragment
+        android.app.FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
 
+        // Highlight the selected item, update the title, and close the drawer
+        mDrawerList.setItemChecked(position, true);
+        setTitle(mDrawerItems[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        getActionBar().setTitle(title);
+    }
 }
