@@ -146,4 +146,20 @@ public class CharacterProfile {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void resetValues() {
+        // reset all values to 0
+        this.weapon1Dps=0;
+        this.weapon2Dps=0;
+        this.primaryAttribute=0;
+        this.iasPercent=0;
+        this.critChance=0;
+        this.critDamage=0;
+    }
+
+    @Override
+    public String toString() {
+        // returns the profile name. so this object can be rendered in a ListView via adapter
+        return name;
+    }
 }

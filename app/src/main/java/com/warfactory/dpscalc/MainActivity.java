@@ -2,6 +2,7 @@ package com.warfactory.dpscalc;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends Activity implements RenameProfileDialogFragment.RenameProfileDialogListener {
-    private List<String> mDrawerItemsList;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private int mCurrentProfileIndex;
@@ -79,12 +79,10 @@ public class MainActivity extends Activity implements RenameProfileDialogFragmen
 
 
         initCharacterProfiles();
-        mDrawerItemsList = genCharacterNameList(mCharacterProfileList);
-
 
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mDrawerItemsList));
+        mDrawerList.setAdapter(new ArrayAdapter<>(this,
+                R.layout.drawer_list_item, mCharacterProfileList));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
@@ -96,13 +94,6 @@ public class MainActivity extends Activity implements RenameProfileDialogFragmen
         }
     }
 
-    private List<String> genCharacterNameList(List<CharacterProfile> characterProfileList) {
-        List<String> result = new ArrayList<>();
-        for (CharacterProfile profile : characterProfileList) {
-            result.add(profile.getName());
-        }
-        return result;
-    }
 
     private List<CharacterProfile> getCharacterProfilesFromStorage() {
         // TODO: should try to load character data from db
@@ -122,10 +113,15 @@ public class MainActivity extends Activity implements RenameProfileDialogFragmen
     public void onDialogPositiveClick(String newProfileName) {
         // save the new profile name
         mCharacterProfileList.get(mCurrentProfileIndex).setName(newProfileName);
-        // display new name on action bar
-        this.setTitle(newProfileName);
         // change the names in drawer
-        this.mDrawerItemsList.set(this.mCurrentProfileIndex, newProfileName);
+        refreshDrawerContent();
+
+    }
+
+    private void refreshDrawerContent() {
+        // refresh profile name on action bar
+        this.setTitle(mCharacterProfileList.get(mCurrentProfileIndex).getName());
+        // refresh drawer content
         mDrawerList.invalidateViews();
     }
 
@@ -145,22 +141,22 @@ public class MainActivity extends Activity implements RenameProfileDialogFragmen
     private void selectItem(int position) {
 
         DpsCalculationFragment fragment = null;
-        CharacterProfile selectedCharacterProfile = mCharacterProfileList.get(position);
         // Create a new fragment and specify the planet to show based on position
         fragment = new DpsCalculationFragment();
-
-        fragment.setCharacterProfile(selectedCharacterProfile);
+        fragment.setCharacterProfile(mCharacterProfileList.get(position));
 
         // Insert the fragment by replacing any existing fragment
-        android.app.FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .commit();
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
-        setTitle(mDrawerItemsList.get(position));
         mDrawerLayout.closeDrawer(mDrawerList);
+
+        mCurrentProfileIndex = position;
+        refreshDrawerContent();
     }
 
     @Override
@@ -174,20 +170,43 @@ public class MainActivity extends Activity implements RenameProfileDialogFragmen
         switch (item.getItemId()) {
             case android.R.id.home:
                 toggleDrawer();
-
+                break;
+            case R.id.action_add_profile:
+                //TODO pop dialog asking for new profile name, create new profile
                 break;
             case R.id.action_rename_profile:
-                popRenameProfileDialog();
-
+                showRenameProfileDialog();
+                break;
+            case R.id.action_delete_profile:
+                showRemoveProfileDialog();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void popRenameProfileDialog() {
+    private void showRemoveProfileDialog() {
+        // TODO pop dialog to confirm deletion
+        if (mCharacterProfileList.size() == 1) {
+            // when only 1 profile left, just clear its data
+            mCharacterProfileList.get(mCurrentProfileIndex).resetValues();
+        } else if (mCharacterProfileList.size() > 1) {
+            // remove current profile
+            mCharacterProfileList.remove(mCurrentProfileIndex);
+            if (mCurrentProfileIndex >= mCharacterProfileList.size()) {
+                // swich to next profile
+                mCurrentProfileIndex = mCharacterProfileList.size();
+            }
+
+            // TODO debug this part. it crashes.
+            selectItem(mCurrentProfileIndex);
+        }
+        refreshDrawerContent();
+    }
+
+    private void showRenameProfileDialog() {
         // pop a dialog to rename current character profile
 
-        //TODO the dialog should contain the old profile name, selected
-        String currentProfileName = mDrawerItemsList.get(mCurrentProfileIndex);
+        String currentProfileName = mCharacterProfileList.get(mCurrentProfileIndex).getName();
         RenameProfileDialogFragment newFragment = new RenameProfileDialogFragment();
         newFragment.setmProfileName(currentProfileName);
         newFragment.show(getFragmentManager(), "renameProfile");

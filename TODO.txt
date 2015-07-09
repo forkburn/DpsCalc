@@ -10,6 +10,6 @@ write a storage class that abstracts the underlying saving system
 
 
 
-user can click existing character to rename him
+add the "add", "rename", "delete" menu btn
 
 add about page

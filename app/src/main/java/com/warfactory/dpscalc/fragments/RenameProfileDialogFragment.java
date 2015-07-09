@@ -50,9 +50,16 @@ public class RenameProfileDialogFragment extends DialogFragment {
 
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-               mListener.onDialogPositiveClick(mProfileNameEdit.getText().toString());
+                mListener.onDialogPositiveClick(mProfileNameEdit.getText().toString());
             }
         });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+
+                    }
+                }
+        );
 
         Dialog dialog = builder.create();
 
@@ -62,7 +69,6 @@ public class RenameProfileDialogFragment extends DialogFragment {
         mProfileNameEdit.selectAll();
         return dialog;
     }
-
 
 
     // Override the Fragment.onAttach() method to instantiate the listener
