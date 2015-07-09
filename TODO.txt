@@ -1,3 +1,7 @@
+input form should remain empty if value is 0.
+input form should display integer
+
+use butn to activate drawer.
 
 enable storing multiple sets of dps entries.
     on launch,

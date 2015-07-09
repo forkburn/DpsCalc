@@ -1,13 +1,18 @@
 package com.warfactory.dpscalc;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
+import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
 import com.warfactory.dpscalc.fragments.DpsCalculationFragment;
 import com.warfactory.dpscalc.model.CharacterProfile;
 
@@ -20,20 +25,60 @@ public class MainActivity extends Activity {
     private ListView mDrawerList;
 
     private List<CharacterProfile> mCharacterProfileList;
+    private DrawerArrowDrawable drawerArrow;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mCharacterProfileList = getCharacterProfilesFromStorage();
-        if (mCharacterProfileList.size()==0) {
-            mCharacterProfileList.add(0, new CharacterProfile());
-        }
-        mDrawerItems = genCharacterNameList(mCharacterProfileList);
+
+        initDrawer();
+
+        // click the first item in drawer
+        selectItem(0);
+
+    }
+
+    private void initDrawer() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+
+        drawerArrow = new DrawerArrowDrawable(this) {
+            @Override
+            public boolean isLayoutRtl() {
+                return false;
+            }
+        };
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                drawerArrow, R.string.drawer_open,
+                R.string.drawer_close)  {
+
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                invalidateOptionsMenu();
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                invalidateOptionsMenu();
+            }
+        };
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+
+
+
+        initCharacterProfiles();
+        mDrawerItems = genCharacterNameList(mCharacterProfileList);
 
 
         // Set the adapter for the list view
@@ -41,15 +86,18 @@ public class MainActivity extends Activity {
                 R.layout.drawer_list_item, mDrawerItems));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+    }
 
-        // click the first item in drawer
-        selectItem(0);
-
+    private void initCharacterProfiles() {
+        mCharacterProfileList = getCharacterProfilesFromStorage();
+        if (mCharacterProfileList.size() == 0) {
+            mCharacterProfileList.add(0, new CharacterProfile());
+        }
     }
 
     private List<String> genCharacterNameList(List<CharacterProfile> characterProfileList) {
         List<String> result = new ArrayList<>();
-        for (CharacterProfile profile:characterProfileList) {
+        for (CharacterProfile profile : characterProfileList) {
             result.add(profile.getName());
         }
         return result;
@@ -62,8 +110,8 @@ public class MainActivity extends Activity {
         profile1.setName("a");
         CharacterProfile profile2 = new CharacterProfile();
         profile2.setName("b");
-        result.add(0,profile1);
-        result.add(1,profile2);
+        result.add(0, profile1);
+        result.add(1, profile2);
 
         return result;
     }
@@ -102,5 +150,30 @@ public class MainActivity extends Activity {
     @Override
     public void setTitle(CharSequence title) {
         getActionBar().setTitle(title);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // toggle the drawer when button on action bar pressed
+        if (item.getItemId() == android.R.id.home) {
+            if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+                mDrawerLayout.closeDrawer(mDrawerList);
+            } else {
+                mDrawerLayout.openDrawer(mDrawerList);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 }

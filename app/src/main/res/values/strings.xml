@@ -1,25 +1,30 @@
 <resources>
 
     <string name="app_name">Diablo 3 DPS Calculator</string>
-    <string name="title_single_weapon">Single Weapon</string>
-    <string name="title_dual_weapon">Dual Weapons</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">Diablo 3 DPS Calculator</string>
 
-    <string-array name="single_weapon_spinner_array">
-        <item>Weapon Dam</item>
-        <item>Primary Attrib</item>
-        <item>Inc Attack Speed</item>
-        <item>Crit Chance</item>
-        <item>Crit Dam</item>
-    </string-array>
-    <string-array name="dual_weapon_spinner_array">
-        <item>Weapon 1 Dam</item>
-        <item>Weapnp 2 Dam </item>
-        <item>Primary Attrib</item>
-        <item>Inc Attack Speed</item>
-        <item>Crit Chance</item>
-        <item>Crit Dam</item>
+
+
+    <string name="weapon1_dam">Weapon 1 Dam</string>
+    <string name="weapon2_dam">Weapon 2 Dam</string>
+    <string name="primary_attrib">Primary Attrib</string>
+    <string name="inc_attack_speed">Inc Attack Speed</string>
+    <string name="crit_chance">Crit Chance</string>
+    <string name="crit_dam">Crit Dam</string>
+
+
+
+    <string-array name="attrib_spinner_array">
+        <item>@string/weapon1_dam</item>
+        <item>@string/weapon2_dam</item>
+        <item>@string/primary_attrib</item>
+        <item>@string/inc_attack_speed</item>
+        <item>@string/crit_chance</item>
+        <item>@string/crit_dam</item>
     </string-array>
 
+
+    <string name="drawer_open">drawer_open</string>
+    <string name="drawer_close">drawer_close</string>
 </resources>

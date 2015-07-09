@@ -45,6 +45,7 @@ public class CharacterProfile {
      */
     public CharacterProfile(CharacterProfile that) {
         this.setWeapon1Dps(that.getWeapon1Dps());
+        this.setWeapon2Dps(that.getWeapon2Dps());
         this.setPrimaryAttribute(that.getPrimaryAttribute());
         this.setIasPercent(that.getIasPercent());
         this.setCritChance(that.getCritChance());

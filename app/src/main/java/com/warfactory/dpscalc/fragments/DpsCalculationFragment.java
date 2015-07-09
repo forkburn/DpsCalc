@@ -20,7 +20,6 @@ import com.warfactory.dpscalc.R;
 import com.warfactory.dpscalc.model.CharacterProfile;
 
 public class DpsCalculationFragment extends Fragment implements TextWatcher, OnItemSelectedListener {
-
     public static final String ARG_DPS = "arg_dps";
     private EditText primaryAttribEdit;
     private EditText iasEdit;
@@ -31,15 +30,19 @@ public class DpsCalculationFragment extends Fragment implements TextWatcher, OnI
     private EditText increasedValEdit;
     private TextView deltaDpsDisplay;
     private String selectedSpinnerItem;
-    private NumberFormat formatter = NumberFormat.getInstance();
+    private NumberFormat resultFormatter = NumberFormat.getInstance();
+    private NumberFormat inputFormatter = NumberFormat.getInstance();
     private EditText weapon1DpsEdit;
     private EditText weapon2DpsEdit;
     private CharacterProfile characterProfile = new CharacterProfile();
 
     public DpsCalculationFragment() {
         super();
-        formatter.setMaximumFractionDigits(2);
-        formatter.setMinimumFractionDigits(2);
+        resultFormatter.setMaximumFractionDigits(2);
+        resultFormatter.setMinimumFractionDigits(2);
+        inputFormatter.setMaximumFractionDigits(2);
+        inputFormatter.setMinimumFractionDigits(0);
+
     }
 
     public CharacterProfile getCharacterProfile() {
@@ -104,26 +107,35 @@ public class DpsCalculationFragment extends Fragment implements TextWatcher, OnI
         // populate deltaAttribSpinner
         deltaAttribSpinner = (Spinner) view.findViewById(R.id.increaseVarSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
-                R.array.dual_weapon_spinner_array, android.R.layout.simple_spinner_item);
+                R.array.attrib_spinner_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         deltaAttribSpinner.setAdapter(adapter);
         // set listener for deltaAttribSpinner
         deltaAttribSpinner.setOnItemSelectedListener(this);
     }
 
+    private String formatNumber(double d) {
+        if (d == 0) {
+            return "";
+        } else {
+            return inputFormatter.format(d);
+        }
+    }
+
     private void restoreWeaponDpsBoxes() {
-        weapon1DpsEdit.setText(String.valueOf(characterProfile.getWeapon1Dps()));
-        weapon2DpsEdit.setText(String.valueOf(characterProfile.getWeapon2Dps()));
+
+        weapon1DpsEdit.setText(formatNumber(characterProfile.getWeapon1Dps()));
+        weapon2DpsEdit.setText(formatNumber(characterProfile.getWeapon2Dps()));
     }
 
     /**
      * Restore previous input data for common input boxes
      */
     private void restoreCommonBoxes() {
-            primaryAttribEdit.setText(String.valueOf(characterProfile.getPrimaryAttribute()));
-            iasEdit.setText(String.valueOf(characterProfile.getIasPercent()));
-            critChanceEdit.setText(String.valueOf(characterProfile.getCritChance()));
-            critDamEdit.setText(String.valueOf(characterProfile.getCritDamage()));
+        primaryAttribEdit.setText(formatNumber(characterProfile.getPrimaryAttribute()));
+        iasEdit.setText(formatNumber(characterProfile.getIasPercent()));
+        critChanceEdit.setText(formatNumber(characterProfile.getCritChance()));
+        critDamEdit.setText(formatNumber(characterProfile.getCritDamage()));
     }
 
     /**
@@ -170,14 +182,18 @@ public class DpsCalculationFragment extends Fragment implements TextWatcher, OnI
     private void recalculateDps() {
         try {
             characterProfile.setWeapon1Dps(Double.valueOf(weapon1DpsEdit.getText().toString()));
-            characterProfile.setWeapon2Dps(Double.valueOf(weapon2DpsEdit.getText().toString()));
+            if (weapon2DpsEdit.getText().length()==0) {
+                characterProfile.setWeapon2Dps(0);
+            }else {
+                characterProfile.setWeapon2Dps(Double.valueOf(weapon2DpsEdit.getText().toString()));
+            }
             characterProfile.setPrimaryAttribute(Integer.valueOf(primaryAttribEdit.getText().toString()));
             characterProfile.setIasPercent(Double.valueOf(iasEdit.getText().toString()));
             characterProfile.setCritChance(Double.valueOf(critChanceEdit.getText().toString()) / 100.0);
             characterProfile.setCritDamage(Double.valueOf(critDamEdit.getText().toString()) / 100.0);
-            calcDpsDisplay.setText(formatter.format(characterProfile.getDps()));
+            calcDpsDisplay.setText(resultFormatter.format(characterProfile.getDps()));
         } catch (NumberFormatException ex) {
-            // some of the input box is empty
+            // some of the input box is empty.
             calcDpsDisplay.setText("");
         }
     }
@@ -187,21 +203,21 @@ public class DpsCalculationFragment extends Fragment implements TextWatcher, OnI
             double increasedValue = Double.valueOf(increasedValEdit.getText().toString());
             CharacterProfile modifiedCharacterProfile = new CharacterProfile(characterProfile);
 
-            if ("Weapon 1 Dam".equals(selectedSpinnerItem)) {
+            if (getString(R.string.weapon1_dam).equals(selectedSpinnerItem)) {
                 modifiedCharacterProfile.setWeapon1Dps(characterProfile.getWeapon1Dps() + increasedValue);
-            } else if ("Weapon 2 Dam".equals(selectedSpinnerItem)) {
+            } else if (getString(R.string.weapon2_dam).equals(selectedSpinnerItem)) {
                 modifiedCharacterProfile.setWeapon2Dps(characterProfile.getWeapon2Dps() + increasedValue);
-            } else if ("Primary Attrib".equals(selectedSpinnerItem)) {
+            } else if (getString(R.string.primary_attrib).equals(selectedSpinnerItem)) {
                 modifiedCharacterProfile.setPrimaryAttribute(characterProfile.getPrimaryAttribute() + (int) increasedValue);
-            } else if ("Inc Attack Speed".equals(selectedSpinnerItem)) {
+            } else if (getString(R.string.inc_attack_speed).equals(selectedSpinnerItem)) {
                 modifiedCharacterProfile.setIasPercent(characterProfile.getIasPercent() + increasedValue);
-            } else if ("Crit Chance".equals(selectedSpinnerItem)) {
+            } else if (getString(R.string.crit_chance).equals(selectedSpinnerItem)) {
                 modifiedCharacterProfile.setCritChance(characterProfile.getCritChance() + increasedValue / 100.0);
-            } else if ("Crit Dam".equals(selectedSpinnerItem)) {
+            } else if (getString(R.string.crit_dam).equals(selectedSpinnerItem)) {
                 modifiedCharacterProfile.setCritDamage(characterProfile.getCritDamage() + increasedValue / 100.0);
             }
             double deltaDps = modifiedCharacterProfile.getDps() - characterProfile.getDps();
-            deltaDpsDisplay.setText(formatter.format(deltaDps));
+            deltaDpsDisplay.setText(resultFormatter.format(deltaDps));
         } catch (NumberFormatException ex) {
             deltaDpsDisplay.setText("");
         }

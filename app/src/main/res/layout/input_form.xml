@@ -1,240 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/dps_input_form"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="15dp"
-    android:orientation="vertical"
-    android:baselineAligned="false">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1"
+    android:scrollbars="none">
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <TextView android:text="Weapon 1 DPS"
-            style="@style/textlabel_style" />
-
-
-        <EditText
-            android:id="@+id/wp1DpsEdit"
-            style="@style/textinput_style" />
-
-    </TableRow>
-
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Weapon 2 DPS"
-
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-
-
-
-        <EditText android:id="@+id/wp2DpsEdit"
-            android:hint="for dual wield"
-
-            style="@style/textinput_style" />
-
-    </TableRow>
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Primary Attribute"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <EditText
-            android:id="@+id/mainAttbEdit"
-            style="@style/textinput_style" />
-    </TableRow>
-
-    <TableRow
-        android:id="@+id/tableRowIas"
-        android:layout_height="wrap_content" >
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Increase Attack Speed"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <EditText
-            android:id="@+id/iasEdit"
-            style="@style/textinput_style" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="%"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    </TableRow>
-
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Critical Hit Chance"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-
-
-        <EditText
-            android:id="@+id/critChanceEdit"
-            android:hint="0 - 100"
-            style="@style/textinput_style"
-        />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="%"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    </TableRow>
-
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Critical Hit Damage"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <EditText
-            android:id="@+id/critDamEdit"
-            style="@style/textinput_style"
-            />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="%"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    </TableRow>
-
-
-
-    <TableRow
+    <TableLayout
+        android:id="@+id/dps_input_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp" >
+        android:layout_margin="15dp"
+        android:baselineAligned="false"
+        android:orientation="vertical">
+
+        <TableRow style="@style/input_table_row_style">
 
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Calculated DPS ="
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            <TextView
+                style="@style/textlabel_style"
+                android:text="Weapon 1 DPS" />
 
 
-        <TextView
-            android:id="@+id/calcDpsDisplay"
-            style="@style/resulttext_style" />
+            <EditText
+                android:id="@+id/wp1DpsEdit"
+                style="@style/textinput_style">
 
-    </TableRow>
+                <requestFocus />
+            </EditText>
+
+        </TableRow>
 
 
-
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp" >
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+        <TableRow style="@style/input_table_row_style">
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="For"
+                android:text="Weapon 2 DPS"
+
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
             <EditText
-                android:id="@+id/increaseValEdit"
-                android:layout_width="65dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="number" />
+                android:id="@+id/wp2DpsEdit"
+                style="@style/textinput_style"
+
+                android:hint="for dual wield" />
+
+        </TableRow>
+
+        <TableRow
+            style="@style/input_table_row_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="increase in"
+                android:text="Primary Attribute"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        </LinearLayout>
+            <EditText
+                android:id="@+id/mainAttbEdit"
+                style="@style/textinput_style" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRowIas"
+            style="@style/input_table_row_style"
+            android:layout_height="wrap_content">
 
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Increase Attack Speed"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/iasEdit"
+                style="@style/textinput_style" />
 
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </TableRow>
 
 
-
-        <Spinner
-            android:id="@+id/increaseVarSpinner"
+        <TableRow
+            style="@style/input_table_row_style"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-    </TableRow>
+            android:layout_height="wrap_content">
 
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Critical Hit Chance"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
+            <EditText
+                android:id="@+id/critChanceEdit"
+                style="@style/textinput_style"
+                android:hint="0 - 100" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </TableRow>
+
+
+        <TableRow
+            style="@style/input_table_row_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Critical Hit Damage"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/critDamEdit"
+                style="@style/textinput_style" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        </TableRow>
+
+
+        <TableRow
+            style="@style/input_table_row_style"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Increased DPS ="
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_marginTop="10dp">
 
 
-        <TextView
-            android:id="@+id/deltaDpsDisplay"
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calculated DPS ="
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+            <TextView
+                android:id="@+id/calcDpsDisplay"
+                style="@style/resulttext_style" />
+
+        </TableRow>
+
+
+        <TableRow
+            style="@style/input_table_row_style"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            style="@style/resulttext_style" />
+            android:layout_marginTop="10dp">
 
-    </TableRow>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
 
-</TableLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="For"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+                <EditText
+                    android:id="@+id/increaseValEdit"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="number" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="increase in"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            </LinearLayout>
+
+
+            <Spinner
+                android:id="@+id/increaseVarSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </TableRow>
+
+
+        <TableRow
+            style="@style/input_table_row_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Increased DPS ="
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+            <TextView
+                android:id="@+id/deltaDpsDisplay"
+                style="@style/resulttext_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        </TableRow>
+
+    </TableLayout>
+</ScrollView>
