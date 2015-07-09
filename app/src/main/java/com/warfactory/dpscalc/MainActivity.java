@@ -9,25 +9,28 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.warfactory.dpscalc.fragments.DpsCalculationFragment;
-import com.warfactory.dpscalc.model.Dps;
+import com.warfactory.dpscalc.model.CharacterProfile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends Activity {
-    private String[] mDrawerItems;
+    private List<String> mDrawerItems;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
 
-    private Dps[] mDpsList;
+    private List<CharacterProfile> mCharacterProfileList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // TODO: should try to load character data from db
-        Dps dps = new Dps();
-        mDpsList = new Dps[1];
-        mDpsList[0] = dps;
-        mDrawerItems = new String[]{"Character 1"};
+        mCharacterProfileList = getCharacterProfilesFromStorage();
+        if (mCharacterProfileList.size()==0) {
+            mCharacterProfileList.add(0, new CharacterProfile());
+        }
+        mDrawerItems = genCharacterNameList(mCharacterProfileList);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -39,6 +42,30 @@ public class MainActivity extends Activity {
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
+        // click the first item in drawer
+        selectItem(0);
+
+    }
+
+    private List<String> genCharacterNameList(List<CharacterProfile> characterProfileList) {
+        List<String> result = new ArrayList<>();
+        for (CharacterProfile profile:characterProfileList) {
+            result.add(profile.getName());
+        }
+        return result;
+    }
+
+    private List<CharacterProfile> getCharacterProfilesFromStorage() {
+        // TODO: should try to load character data from db
+        List<CharacterProfile> result = new ArrayList<>();
+        CharacterProfile profile1 = new CharacterProfile();
+        profile1.setName("a");
+        CharacterProfile profile2 = new CharacterProfile();
+        profile2.setName("b");
+        result.add(0,profile1);
+        result.add(1,profile2);
+
+        return result;
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -54,11 +81,11 @@ public class MainActivity extends Activity {
     private void selectItem(int position) {
 
         DpsCalculationFragment fragment = null;
-        Dps selectedDps = mDpsList[position];
+        CharacterProfile selectedCharacterProfile = mCharacterProfileList.get(position);
         // Create a new fragment and specify the planet to show based on position
         fragment = new DpsCalculationFragment();
 
-        fragment.setDps(selectedDps);
+        fragment.setCharacterProfile(selectedCharacterProfile);
 
         // Insert the fragment by replacing any existing fragment
         android.app.FragmentManager fragmentManager = getFragmentManager();
@@ -68,7 +95,7 @@ public class MainActivity extends Activity {
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
-        setTitle(mDrawerItems[position]);
+        setTitle(mDrawerItems.get(position));
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 

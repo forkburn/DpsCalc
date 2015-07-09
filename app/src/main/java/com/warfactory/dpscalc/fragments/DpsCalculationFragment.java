@@ -17,7 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.warfactory.dpscalc.R;
-import com.warfactory.dpscalc.model.Dps;
+import com.warfactory.dpscalc.model.CharacterProfile;
 
 public class DpsCalculationFragment extends Fragment implements TextWatcher, OnItemSelectedListener {
 
@@ -34,7 +34,7 @@ public class DpsCalculationFragment extends Fragment implements TextWatcher, OnI
     private NumberFormat formatter = NumberFormat.getInstance();
     private EditText weapon1DpsEdit;
     private EditText weapon2DpsEdit;
-    private Dps dps = new Dps();
+    private CharacterProfile characterProfile = new CharacterProfile();
 
     public DpsCalculationFragment() {
         super();
@@ -42,23 +42,24 @@ public class DpsCalculationFragment extends Fragment implements TextWatcher, OnI
         formatter.setMinimumFractionDigits(2);
     }
 
-    public Dps getDps() {
-        return dps;
+    public CharacterProfile getCharacterProfile() {
+        return characterProfile;
     }
 
-    public void setDps(Dps dps) {
-        this.dps = dps;
+    public void setCharacterProfile(CharacterProfile characterProfile) {
+        this.characterProfile = characterProfile;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         // create layout as view
         View view = initView(inflater, container);
         initWeaponDpsBoxes(view);
         initCommonBoxes(view);
         initSpinner(view);
-        restoreWeaponDpsBoxes(savedInstanceState);
-        restoreCommonBoxes(savedInstanceState);
+        restoreWeaponDpsBoxes();
+        restoreCommonBoxes();
         return view;
     }
 
@@ -110,24 +111,19 @@ public class DpsCalculationFragment extends Fragment implements TextWatcher, OnI
         deltaAttribSpinner.setOnItemSelectedListener(this);
     }
 
-    private void restoreWeaponDpsBoxes(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            // restore saved state
-            weapon1DpsEdit.setText(savedInstanceState.getString("weapon1DpsEdit", ""));
-            weapon2DpsEdit.setText(savedInstanceState.getString("weapon2DpsEdit", ""));
-        }
+    private void restoreWeaponDpsBoxes() {
+        weapon1DpsEdit.setText(String.valueOf(characterProfile.getWeapon1Dps()));
+        weapon2DpsEdit.setText(String.valueOf(characterProfile.getWeapon2Dps()));
     }
 
     /**
      * Restore previous input data for common input boxes
      */
-    private void restoreCommonBoxes(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            primaryAttribEdit.setText(savedInstanceState.getString("primaryAttribEdit", ""));
-            iasEdit.setText(savedInstanceState.getString("iasEdit", ""));
-            critChanceEdit.setText(savedInstanceState.getString("critChance", ""));
-            critDamEdit.setText(savedInstanceState.getString("critDam", ""));
-        }
+    private void restoreCommonBoxes() {
+            primaryAttribEdit.setText(String.valueOf(characterProfile.getPrimaryAttribute()));
+            iasEdit.setText(String.valueOf(characterProfile.getIasPercent()));
+            critChanceEdit.setText(String.valueOf(characterProfile.getCritChance()));
+            critDamEdit.setText(String.valueOf(characterProfile.getCritDamage()));
     }
 
     /**
@@ -136,20 +132,6 @@ public class DpsCalculationFragment extends Fragment implements TextWatcher, OnI
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        saveWeaponBoxState(outState);
-        saveCommonBoxState(outState);
-    }
-
-    private void saveWeaponBoxState(Bundle outState) {
-        outState.putString("weapon1DpsEdit", weapon1DpsEdit.getText().toString());
-        outState.putString("weapon2DpsEdit", weapon2DpsEdit.getText().toString());
-    }
-
-    private void saveCommonBoxState(Bundle outState) {
-        outState.putString("primaryAttribEdit", primaryAttribEdit.getText().toString());
-        outState.putString("iasEdit", iasEdit.getText().toString());
-        outState.putString("critChance", critChanceEdit.getText().toString());
-        outState.putString("critDam", critDamEdit.getText().toString());
     }
 
     @Override
@@ -187,13 +169,13 @@ public class DpsCalculationFragment extends Fragment implements TextWatcher, OnI
 
     private void recalculateDps() {
         try {
-            dps.setWeapon1Dps(Double.valueOf(weapon1DpsEdit.getText().toString()));
-            dps.setWeapon2Dps(Double.valueOf(weapon2DpsEdit.getText().toString()));
-            dps.setPrimaryAttribute(Integer.valueOf(primaryAttribEdit.getText().toString()));
-            dps.setIasPercent(Double.valueOf(iasEdit.getText().toString()));
-            dps.setCritChance(Double.valueOf(critChanceEdit.getText().toString()) / 100.0);
-            dps.setCritDamage(Double.valueOf(critDamEdit.getText().toString()) / 100.0);
-            calcDpsDisplay.setText(formatter.format(dps.getDps()));
+            characterProfile.setWeapon1Dps(Double.valueOf(weapon1DpsEdit.getText().toString()));
+            characterProfile.setWeapon2Dps(Double.valueOf(weapon2DpsEdit.getText().toString()));
+            characterProfile.setPrimaryAttribute(Integer.valueOf(primaryAttribEdit.getText().toString()));
+            characterProfile.setIasPercent(Double.valueOf(iasEdit.getText().toString()));
+            characterProfile.setCritChance(Double.valueOf(critChanceEdit.getText().toString()) / 100.0);
+            characterProfile.setCritDamage(Double.valueOf(critDamEdit.getText().toString()) / 100.0);
+            calcDpsDisplay.setText(formatter.format(characterProfile.getDps()));
         } catch (NumberFormatException ex) {
             // some of the input box is empty
             calcDpsDisplay.setText("");
@@ -203,22 +185,22 @@ public class DpsCalculationFragment extends Fragment implements TextWatcher, OnI
     private void recalculateDeltaDps() {
         try {
             double increasedValue = Double.valueOf(increasedValEdit.getText().toString());
-            Dps increasedDps = new Dps(dps);
+            CharacterProfile modifiedCharacterProfile = new CharacterProfile(characterProfile);
 
             if ("Weapon 1 Dam".equals(selectedSpinnerItem)) {
-                increasedDps.setWeapon1Dps(dps.getWeapon1Dps() + increasedValue);
+                modifiedCharacterProfile.setWeapon1Dps(characterProfile.getWeapon1Dps() + increasedValue);
             } else if ("Weapon 2 Dam".equals(selectedSpinnerItem)) {
-                increasedDps.setWeapon2Dps(dps.getWeapon2Dps() + increasedValue);
+                modifiedCharacterProfile.setWeapon2Dps(characterProfile.getWeapon2Dps() + increasedValue);
             } else if ("Primary Attrib".equals(selectedSpinnerItem)) {
-                increasedDps.setPrimaryAttribute(dps.getPrimaryAttribute() + (int) increasedValue);
+                modifiedCharacterProfile.setPrimaryAttribute(characterProfile.getPrimaryAttribute() + (int) increasedValue);
             } else if ("Inc Attack Speed".equals(selectedSpinnerItem)) {
-                increasedDps.setIasPercent(dps.getIasPercent() + increasedValue);
+                modifiedCharacterProfile.setIasPercent(characterProfile.getIasPercent() + increasedValue);
             } else if ("Crit Chance".equals(selectedSpinnerItem)) {
-                increasedDps.setCritChance(dps.getCritChance() + increasedValue / 100.0);
+                modifiedCharacterProfile.setCritChance(characterProfile.getCritChance() + increasedValue / 100.0);
             } else if ("Crit Dam".equals(selectedSpinnerItem)) {
-                increasedDps.setCritDamage(dps.getCritDamage() + increasedValue / 100.0);
+                modifiedCharacterProfile.setCritDamage(characterProfile.getCritDamage() + increasedValue / 100.0);
             }
-            double deltaDps = increasedDps.getDps() - dps.getDps();
+            double deltaDps = modifiedCharacterProfile.getDps() - characterProfile.getDps();
             deltaDpsDisplay.setText(formatter.format(deltaDps));
         } catch (NumberFormatException ex) {
             deltaDpsDisplay.setText("");

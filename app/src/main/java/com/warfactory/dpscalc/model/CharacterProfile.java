@@ -3,13 +3,13 @@ package com.warfactory.dpscalc.model;
 /**
  * Model for calculating total DPS
  */
-public class Dps {
+public class CharacterProfile {
 
-
+    private String name="Profile";
     /**
      * Weapon dps, as displayed in weapons's property
      */
-    protected double weapon1Dps;
+    private double weapon1Dps;
 
     private double weapon2Dps;
 
@@ -34,7 +34,7 @@ public class Dps {
      */
     private double critDamage;
 
-    public Dps() {
+    public CharacterProfile() {
         // default ctor
     }
 
@@ -43,7 +43,7 @@ public class Dps {
      *
      * @param that
      */
-    public Dps(Dps that) {
+    public CharacterProfile(CharacterProfile that) {
         this.setWeapon1Dps(that.getWeapon1Dps());
         this.setPrimaryAttribute(that.getPrimaryAttribute());
         this.setIasPercent(that.getIasPercent());
@@ -138,4 +138,11 @@ public class Dps {
         this.primaryAttribute = mainAttribute;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
