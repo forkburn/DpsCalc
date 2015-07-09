@@ -67,7 +67,7 @@ public class DpsCalculationFragment extends Fragment implements TextWatcher, OnI
     }
 
     private View initView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.input_form, container, false);
+        return inflater.inflate(R.layout.profile_data_input_form, container, false);
     }
 
     private void initWeaponDpsBoxes(View view) {

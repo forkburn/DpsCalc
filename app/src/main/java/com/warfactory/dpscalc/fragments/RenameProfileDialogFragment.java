@@ -15,8 +15,18 @@ import com.warfactory.dpscalc.R;
 
 public class RenameProfileDialogFragment extends DialogFragment {
 
-    private EditText newProfileNameEdit;
+    private EditText mProfileNameEdit;
     private RenameProfileDialogListener mListener;
+
+    private String mProfileName;
+
+    public String getmProfileName() {
+        return mProfileName;
+    }
+
+    public void setmProfileName(String mProfileName) {
+        this.mProfileName = mProfileName;
+    }
 
 
     /* The activity that creates an instance of this dialog fragment must
@@ -40,13 +50,16 @@ public class RenameProfileDialogFragment extends DialogFragment {
 
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-               mListener.onDialogPositiveClick(newProfileNameEdit.getText().toString());
+               mListener.onDialogPositiveClick(mProfileNameEdit.getText().toString());
             }
         });
 
         Dialog dialog = builder.create();
 
-        newProfileNameEdit = (EditText) view.findViewById(R.id.new_profile_name_input);
+        mProfileNameEdit = (EditText) view.findViewById(R.id.new_profile_name_input);
+        // display the current profile name in input box
+        mProfileNameEdit.setText(mProfileName);
+        mProfileNameEdit.selectAll();
         return dialog;
     }
 
