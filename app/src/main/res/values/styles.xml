@@ -1,24 +1,23 @@
 <resources>
 
 
-    <style name="textinput_style">
+    <style name="text_input_style">
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:layout_marginRight">5dp</item>
-
-        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
         <item name="android:gravity">center</item>
         <item name="android:inputType">numberDecimal</item>
     </style>
 
-    <style name="textlabel_style">
+    <style name="text_label_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>
 
-    <style name="resulttext_style">
+    <style name="result_text_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
