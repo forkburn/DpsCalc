@@ -30,6 +30,7 @@
     <string name="add_profile">Add profile</string>
     <string name="rename_profile">Rename profile</string>
     <string name="delete_profile">Delete profile</string>
+    <string name="delete_profile_confirm">Delete current profile?</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 </resources>

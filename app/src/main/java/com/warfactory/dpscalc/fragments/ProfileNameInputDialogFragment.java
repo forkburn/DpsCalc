@@ -13,18 +13,18 @@ import android.widget.EditText;
 
 import com.warfactory.dpscalc.R;
 
-public class RenameProfileDialogFragment extends DialogFragment {
+public class ProfileNameInputDialogFragment extends DialogFragment {
 
     private EditText mProfileNameEdit;
     private RenameProfileDialogListener mListener;
 
     private String mProfileName;
 
-    public String getmProfileName() {
+    public String getProfileName() {
         return mProfileName;
     }
 
-    public void setmProfileName(String mProfileName) {
+    public void setProfileName(String mProfileName) {
         this.mProfileName = mProfileName;
     }
 
@@ -54,12 +54,11 @@ public class RenameProfileDialogFragment extends DialogFragment {
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
 
-                    }
-                }
-        );
+            }
+        });
 
         Dialog dialog = builder.create();
 
