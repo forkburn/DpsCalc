@@ -9,7 +9,4 @@ enable storing multiple sets of dps entries.
 write a storage class that abstracts the underlying saving system
 
 
-
-add the "add", "rename", "delete" menu btn
-
 add about page

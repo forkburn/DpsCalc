@@ -21,5 +21,6 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:21.0.0'
     compile 'com.ikimuhendis:ldrawer:0.1'
+    compile 'com.google.code.gson:gson:2.2.+'
     testCompile "junit:junit:4.12"
 }

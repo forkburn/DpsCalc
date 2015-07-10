@@ -21,8 +21,8 @@ import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
 import com.warfactory.dpscalc.fragments.DpsCalculationFragment;
 import com.warfactory.dpscalc.fragments.ProfileNameInputDialogFragment;
 import com.warfactory.dpscalc.model.CharacterProfile;
+import com.warfactory.dpscalc.storage.ProfileStorage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends Activity implements ProfileNameInputDialogFragment.RenameProfileDialogListener {
@@ -98,16 +98,15 @@ public class MainActivity extends Activity implements ProfileNameInputDialogFrag
 
 
     private List<CharacterProfile> getCharacterProfilesFromStorage() {
-        // TODO: should try to load character data from db
-        List<CharacterProfile> result = new ArrayList<>();
-        CharacterProfile profile1 = new CharacterProfile();
-        profile1.setName("a");
-        CharacterProfile profile2 = new CharacterProfile();
-        profile2.setName("b");
-        result.add(0, profile1);
-        result.add(1, profile2);
-
-        return result;
+        // get data from storage
+        List<CharacterProfile> profileList = ProfileStorage.retrieveProfileList(this);
+        // if data empty, populate with 1 profile
+        if (profileList.size() == 0) {
+            CharacterProfile profile1 = new CharacterProfile();
+            profile1.setName("Profile 1");
+            profileList.add(0, profile1);
+        }
+        return profileList;
     }
 
     @Override
@@ -209,6 +208,7 @@ public class MainActivity extends Activity implements ProfileNameInputDialogFrag
     private void showAddProfileDialog() {
         ProfileNameInputDialogFragment newFragment = new ProfileNameInputDialogFragment();
         newFragment.setMode(ProfileNameInputDialogFragment.Mode.ADD);
+        newFragment.setProfileName("New profile");
         newFragment.show(getFragmentManager(), "addProfile");
     }
 
@@ -283,5 +283,22 @@ public class MainActivity extends Activity implements ProfileNameInputDialogFrag
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_main, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // store profile data
+        ProfileStorage.storeProfileList(mCharacterProfileList, this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+            // when press back button, close drawer first
+            mDrawerLayout.closeDrawer(mDrawerList);
+        } else {
+            super.onBackPressed();
+        }
     }
 }
