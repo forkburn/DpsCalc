@@ -111,10 +111,28 @@ public class MainActivity extends Activity implements ProfileNameInputDialogFrag
     }
 
     @Override
-    public void onDialogPositiveClick(String newProfileName) {
-        // when user renames current profile
+    public void onRenameDialogPositiveClick(String newProfileName) {
+        // when user input a new profile name in dialog
         // save the new profile name
         getCurrentProfile().setName(newProfileName);
+        // change the names in drawer
+        refreshDrawerContent();
+    }
+
+
+    @Override
+    public void onAddDialogPositiveClick(String newProfileName) {
+        // when user input a new profile name in dialog
+        // add new profile
+        addProfile(newProfileName);
+        // switch to that profile
+        selectDrawerItem(mCharacterProfileList.size() - 1);
+    }
+
+    private void addProfile(String profileName) {
+        CharacterProfile profile = new CharacterProfile();
+        profile.setName(profileName);
+        mCharacterProfileList.add(profile);
         // change the names in drawer
         refreshDrawerContent();
     }
@@ -189,6 +207,18 @@ public class MainActivity extends Activity implements ProfileNameInputDialogFrag
     }
 
     private void showAddProfileDialog() {
+        ProfileNameInputDialogFragment newFragment = new ProfileNameInputDialogFragment();
+        newFragment.setMode(ProfileNameInputDialogFragment.Mode.ADD);
+        newFragment.show(getFragmentManager(), "addProfile");
+    }
+
+    private void showRenameProfileDialog() {
+        // pop a dialog to rename current character profile
+        String currentProfileName = getCurrentProfile().getName();
+        ProfileNameInputDialogFragment newFragment = new ProfileNameInputDialogFragment();
+        newFragment.setMode(ProfileNameInputDialogFragment.Mode.RENAME);
+        newFragment.setProfileName(currentProfileName);
+        newFragment.show(getFragmentManager(), "renameProfile");
     }
 
     private void showDeleteProfileDialog() {
@@ -224,14 +254,6 @@ public class MainActivity extends Activity implements ProfileNameInputDialogFrag
 
         }
         selectDrawerItem(mCurrentProfileIndex);
-    }
-
-    private void showRenameProfileDialog() {
-        // pop a dialog to rename current character profile
-        String currentProfileName = getCurrentProfile().getName();
-        ProfileNameInputDialogFragment newFragment = new ProfileNameInputDialogFragment();
-        newFragment.setProfileName(currentProfileName);
-        newFragment.show(getFragmentManager(), "renameProfile");
     }
 
     private void toggleDrawer() {

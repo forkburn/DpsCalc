@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.warfactory.dpscalc.R;
@@ -18,7 +19,19 @@ public class ProfileNameInputDialogFragment extends DialogFragment {
     private EditText mProfileNameEdit;
     private RenameProfileDialogListener mListener;
 
+    public enum Mode {RENAME, ADD};
+
+    private Mode mMode;
+
     private String mProfileName;
+
+    public Mode getMode() {
+        return mMode;
+    }
+
+    public void setMode(Mode mMode) {
+        this.mMode = mMode;
+    }
 
     public String getProfileName() {
         return mProfileName;
@@ -32,10 +45,10 @@ public class ProfileNameInputDialogFragment extends DialogFragment {
     /* The activity that creates an instance of this dialog fragment must
     * implement this interface in order to receive event callbacks.*/
     public interface RenameProfileDialogListener {
-        public void onDialogPositiveClick(String newProfileName);
+        public void onRenameDialogPositiveClick(String newProfileName);
+        public void onAddDialogPositiveClick(String newProfileName);
 
     }
-
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -45,12 +58,17 @@ public class ProfileNameInputDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.rename_profile_dialog, null);
         builder.setView(view);
-        builder.setTitle(R.string.rename_profile);
-
+        if (mMode == Mode.RENAME)
+            builder.setTitle(R.string.rename_profile);
+        else if (mMode == Mode.ADD)
+            builder.setTitle(R.string.add_profile);
 
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                mListener.onDialogPositiveClick(mProfileNameEdit.getText().toString());
+                if(mMode==Mode.RENAME)
+                    mListener.onRenameDialogPositiveClick(mProfileNameEdit.getText().toString());
+                else if (mMode==Mode.ADD)
+                    mListener.onAddDialogPositiveClick(mProfileNameEdit.getText().toString());
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -60,12 +78,23 @@ public class ProfileNameInputDialogFragment extends DialogFragment {
             }
         });
 
-        Dialog dialog = builder.create();
+        final Dialog dialog = builder.create();
 
+        //setup the input text box
         mProfileNameEdit = (EditText) view.findViewById(R.id.new_profile_name_input);
-        // display the current profile name in input box
         mProfileNameEdit.setText(mProfileName);
         mProfileNameEdit.selectAll();
+        // pop up soft keyboard on focus
+        mProfileNameEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
+            }
+        });
+
+
         return dialog;
     }
 
