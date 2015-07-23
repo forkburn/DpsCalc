@@ -208,8 +208,14 @@ public class MainActivity extends Activity implements ProfileNameInputDialogFrag
     private void showAddProfileDialog() {
         ProfileNameInputDialogFragment newFragment = new ProfileNameInputDialogFragment();
         newFragment.setMode(ProfileNameInputDialogFragment.Mode.ADD);
-        newFragment.setProfileName("New profile");
+        String defaultPrifleName = generateNewProfileName();
+        newFragment.setProfileName(defaultPrifleName);
         newFragment.show(getFragmentManager(), "addProfile");
+    }
+
+    private String generateNewProfileName() {
+        // generate a profile name such as "Profile 2" "Profile 3", depending on current no. of profiles
+        return "Profile " + (mCharacterProfileList.size() + 1);
     }
 
     private void showRenameProfileDialog() {
